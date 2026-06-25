@@ -1,29 +1,29 @@
-# your task is to clean this script in 
-# a way that uses the code as a single function 
-# that takes a path and returns the total_price variable
-# that meets pep8 standards and receives a 10 score using pylint
+'''
+This code takes in a list of prices
+It adds the price of all items less than 25 dollars then adds tax
+Returns the total price
+'''
 
-import time
 import numpy as np
 
-with open('gift_costs.txt') as f:
-    gift_costs = f.read().split('\n')
-    
-gift_costs = np.array(gift_costs).astype(int)  # convert string to int
+def calculate_total_price(filename):
+    '''calculate_total_price
+    takes in a file
+    adds up the cost of all items less than 25 dollars and adds tax
+    returns the total price
+    '''
+    with open(filename, encoding="utf-8") as f:
+        gift_costs = f.read().split('\n')
 
-start = time.time()
+    gift_costs = np.array(gift_costs).astype(int)  # convert string to int
 
-total_price = 0
-for cost in gift_costs:
-    if cost < 25:
-        total_price += cost * 1.08  # add cost after tax
+    total_price = 0
 
-print(total_price)
-print('Duration: {} seconds'.format(time.time() - start))
+    # total price is the sum of all items less than 25 plus tax
+    total_price = np.sum(np.where(gift_costs < 25, gift_costs, 0)) * 1.08
 
-start = time.time()
+    return total_price
 
-total_price = (gift_costs[gift_costs < 25]).sum() * 1.08
-print(total_price)
 
-print('Duration: {} seconds'.format(time.time() - start))
+if __name__ == "__main__":
+    print(calculate_total_price('gift_costs.txt'))
